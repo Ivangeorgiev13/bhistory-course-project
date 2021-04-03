@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import requests from '../requests';
 import ListErrors from './ListErrors';
 
 
 
-const Register = () => {
+const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUserName] = useState('');
@@ -12,9 +13,23 @@ const Register = () => {
   const [rePassword, setRePassword] = useState('');
 
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     if (password.length > 6 && password === rePassword) {
-      console.log('submit')
+      requests.Auth.register(username, email, password).then(r => {
+        const user = r.user;
+        const token = user.token;
+        const registerdEmail = user.email;
+        const registeredUsername = user.username;
+        props.setUser({
+          username: registeredUsername,
+          email: registerdEmail,
+          token: token
+        });
+        props.history.push('/');
+      }).catch(err => {
+        console.error(err);
+      })
     }
   }
 
@@ -50,7 +65,7 @@ const Register = () => {
 
             <ListErrors errors={errors} />
 
-            <form onSubmit={() => submitForm(username, email, password)}>
+            <form onSubmit={submitForm}>
               <fieldset>
 
                 <fieldset className="form-group">
@@ -92,9 +107,8 @@ const Register = () => {
                 <button
                   className="btn btn-lg btn-primary pull-xs-right"
                   type="submit"
-                // disabled={this.props.inProgress}
                 >
-                  Регистрация
+                  {"Регистрация"}
                 </button>
 
               </fieldset>

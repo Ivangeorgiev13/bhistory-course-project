@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ListErrors from './ListErrors';
+import requests from '../requests';
 
 
 const Login = (props) => {
@@ -17,8 +18,18 @@ const Login = (props) => {
         setPassword(ev.target.value)
     }
 
-    const submitForm = () => {
-        console.log(email)
+    const submitForm = (e) => {
+        e.preventDefault()
+        requests.Auth.login(email, password).then(r => {
+            props.setUser({
+                username: r.user.username,
+                email: r.user.email,
+                token: r.user.token
+            });
+            props.history.push('/')
+        }).catch(err => {
+            console.error(err);
+        })
     }
 
     return (
@@ -27,10 +38,12 @@ const Login = (props) => {
                 <div className="row">
 
                     <div className="col-md-6 offset-md-3 col-xs-12">
-                        <h1 className="text-xs-center">Вход в bHistory</h1>
+                        <h1 className="text-xs-center">
+                            {"Вход в bHistory"}
+                        </h1>
                         <p className="text-xs-center">
                             <Link to="/register">
-                                "{"Регистрация"}"
+                                {"Регистрация"}
                             </Link>
                         </p>
 

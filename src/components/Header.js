@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoggedOutView from './LoggedOutView';
 import LoggedInView from './LoggedInView';
@@ -6,7 +6,9 @@ import LoggedInView from './LoggedInView';
 
 
 const Header = (props) => {
-
+    useEffect(() => {
+        console.log(props.currentUser)
+    }, [])
     return (
         <nav className="navbar navbar-light">
             <div className="container">
