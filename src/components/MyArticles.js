@@ -2,9 +2,10 @@ import React from 'react';
 import requests from '../requests';
 
 const MyArticles = (props) => {
-    if (props.token) {
-        const clickHandler = ev => {
+    if (props.currentUser) {
+        const clickHandler = (ev) => {
             ev.preventDefault();
+            props.onTabClick('feed');
         }
 
         return (

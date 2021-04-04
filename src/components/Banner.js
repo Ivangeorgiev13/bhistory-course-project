@@ -1,9 +1,6 @@
 import React from 'react';
 
-const Banner = ({ appName, token }) => {
-    if (token) {
-        return null;
-    }
+const Banner = ({ appName }) => {
     return (
         <div className="banner" style={{ background: '#b3b300' }}>
             <div className="container">
